@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 func say(s string) {
@@ -23,9 +24,10 @@ func main() {
 	say("good morning")
 
 	go say("hey")
-
-	ctx, _ := context.WithTimeout(context.Background(), 10000)
-	go sayWithContext(ctx, "context")
+	d, _ := time.ParseDuration("3s")
+	ctx, _ := context.WithTimeout(context.Background(), d)
+	go sayWithContext(ctx, "me")
+	go sayWithContext(ctx, "first")
 
 	select {
 	case <-ctx.Done():
